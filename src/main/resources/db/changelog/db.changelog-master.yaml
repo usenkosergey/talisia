@@ -2,3 +2,5 @@ databaseChangeLog:
   - databaseChangeLog:
   - include:
       file: db/changelog/2024.07.21_init.yaml
+  - include:
+      file: db/changelog/2024.07.27_add_table_chat.yaml

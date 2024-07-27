@@ -21,33 +21,28 @@ public class TallMeService {
     private String key;
 
     public void tallMe() throws IOException {
-
-        String body = "{ " +
-                "  \"dateRange\": { " +
-                "    \"start\": \"2024-07-26 00:00:00\", " +
-                "    \"stop\": \"2024-07-27 19:45:00\" " +
-                "  } " +
-                "}";
-
-        URL url = new URL("https://lcab.talk-me.ru/json/v1.0/chat/message/getList");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.addRequestProperty("Content-Type", "application/json");
-        conn.addRequestProperty("X-Token", key);
-        conn.setDoOutput(true);
-
-        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-        writer.write(body);
-        writer.flush();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line;
-        StringBuilder response = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
-        }
-        reader.close();
-        System.out.println(response);
+//
+//        String body = "{\"dateRange\": {\"start\": \"2024-07-27 16:02:41\",\"stop\": \"2024-07-27 16:02:41\"}}";
+//
+//        URL url = new URL("https://lcab.talk-me.ru/json/v1.0/chat/message/getList");
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("POST");
+//        conn.addRequestProperty("Content-Type", "application/json");
+//        conn.addRequestProperty("X-Token", key);
+//        conn.setDoOutput(true);
+//
+//        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+//        writer.write(body);
+//        writer.flush();
+//
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        String line;
+//        StringBuilder response = new StringBuilder();
+//        while ((line = reader.readLine()) != null) {
+//            response.append(line);
+//        }
+//        reader.close();
+//        System.out.println(response);
 
     }
 }

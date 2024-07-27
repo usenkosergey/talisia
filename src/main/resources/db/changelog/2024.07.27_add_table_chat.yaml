@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Usenko Sergey
+      changes:
+        - createTable:
+            tableName: chat
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cliend_id
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question
+                  type: varchar
+              - column:
+                  name: answer
+                  type: varchar
+              - column:
+                  name: create_date
+                  type: timestamp
+        - createIndex:
+            columns:
+              - column:
+                  name: cliend_id
+            indexName: cliend_id_inx
+            tableName: chat
+
+

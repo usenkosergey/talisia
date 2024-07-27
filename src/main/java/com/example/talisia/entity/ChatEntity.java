@@ -1,6 +1,8 @@
 package com.example.talisia.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class ChatEntity {
     private String answer;
 
     @Column(name = "create_date")
+    @CreationTimestamp
     private LocalDateTime createDate;
 
     public Long getId() {

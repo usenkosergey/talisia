@@ -9,11 +9,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -46,11 +44,21 @@ public class ChatGTPInitService {
 
     private String getAnswerFromGPT(String question) throws IOException {
 
+        String fileName = String.valueOf(System.currentTimeMillis());
         JSONArray jsonArray = new JSONArray();
 
         JSONObject systemMessage = new JSONObject();
         systemMessage.put("role", "system");
-        systemMessage.put("content", Info.desc + Info.procedure);
+
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/java/com/example/talisia/procedure.txt"));
+        String line;
+        StringBuilder sb = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+
+        systemMessage.put("content", Info.desc + sb.toString());
 
         JSONObject clientMessage = new JSONObject();
         clientMessage.put("role", "user");
@@ -63,6 +71,7 @@ public class ChatGTPInitService {
         JSONObject bodyJson = mainJson.getJSONObject("body");
         bodyJson.put("messages", jsonArray);
         mainJson.put("body", bodyJson);
+        mainJson.put("custom_id", fileName);
 
         byte[] bytes = mainJson.toString().getBytes();
 
@@ -82,19 +91,103 @@ public class ChatGTPInitService {
                 .addHeader("Authorization", "Bearer " + apiKey)
                 .build();
 
+        String id = "";
+
         // Выполнение запроса
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Unexpected code " + response);
-            }
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) {
+//                throw new IOException("Unexpected code " + response);
+//            }
+//
+//            // Чтение ответа
+//            JSONObject jsonResponse = new JSONObject(response.body().string());
+//            id = jsonResponse.getString("id");
+//            System.out.println(jsonResponse.toString(2));
+//        }
 
-            // Чтение ответа
-            JSONObject jsonResponse = new JSONObject(response.body().string());
-            System.out.println(jsonResponse.toString(2));
-        }
+        JSONObject jsonObject = new JSONObject();
 
+        jsonObject.put("input_file_id", id);
+        jsonObject.put("endpoint", "/v1/chat/completions");
+        jsonObject.put("completion_window", "24h");
+
+        URL url = new URL("https://api.openai.com/v1/batches");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", "Bearer " + apiKey);
+        con.setDoOutput(true);
+
+//        OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+//        writer.write(jsonObject.toString());
+//        writer.flush();
+//        writer.close();
+
+//        BufferedReader reader1 = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//        String line1;
+//        StringBuilder response1 = new StringBuilder();
+//        while ((line1 = reader1.readLine()) != null) {
+//            response1.append(line1);
+//        }
+//        reader1.close();
+//        System.out.println(response1.toString());
+
+//        JSONObject jsonResponse1 = new JSONObject(response1.toString());
+
+//        retrieve(jsonResponse1.getString("input_file_id"));
+
+        String outputFile = retrieveBatch("batch_Mt44NPvR2cuFIjOFo9IbUop3");
+        retrieve(outputFile);
         return null;
 
+    }
+
+    private String retrieveBatch(String batchId) throws IOException {
+        URL url = new URL("https://api.openai.com/v1/batches/" + batchId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+//        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", "Bearer " + apiKey);
+        con.setDoOutput(true);
+
+//        OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+////        writer.flush();
+//        writer.close();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String line;
+        StringBuilder response = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        System.out.println(response.toString());
+
+        JSONObject jsonResponse = new JSONObject(response.toString());
+
+        return jsonResponse.getString("output_file_id");
+    }
+
+    private void retrieve(String outputFileId) throws IOException {
+        URL url = new URL("https://api.openai.com/v1/files/" + outputFileId + "/content");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+//        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", "Bearer " + apiKey);
+        con.setDoOutput(true);
+
+//        OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+////        writer.flush();
+//        writer.close();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String line;
+        StringBuilder response = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        System.out.println(response.toString());
     }
 
     private void sendRequestToChatGpt(String body, HttpURLConnection con) throws IOException {
@@ -130,6 +223,6 @@ public class ChatGTPInitService {
 //        JSONArray choices = responseObject.getJSONArray("choices");
 //        JSONObject messageObject = choices.getJSONObject(0).getJSONObject("message"); //todo избавиться от индекса 0
 //        String content = messageObject.getString("content");
-        return content;
+        return null;
     }
 }

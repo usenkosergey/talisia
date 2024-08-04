@@ -33,5 +33,3 @@ databaseChangeLog:
                   name: cliend_id
             indexName: cliend_id_inx
             tableName: chat
-
-

@@ -1,12 +1,13 @@
 package com.example.talisia;
 
-import com.example.talisia.service.ChatGTPInitService;
-import com.example.talisia.service.MainService;
+import com.example.talisia.service.InitService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class TalisiaApplication {
 
 	public static void main(String[] args) {
@@ -14,7 +15,7 @@ public class TalisiaApplication {
 //		MainService bean = context.getBean(MainService.class);
 //		bean.main();
 
-		ChatGTPInitService gtpInitService = context.getBean(ChatGTPInitService.class);
+		InitService gtpInitService = context.getBean(InitService.class);
 		gtpInitService.temp();
 
 	}

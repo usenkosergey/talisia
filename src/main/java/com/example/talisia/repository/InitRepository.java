@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface InitRepository extends JpaRepository<ChatEntity, Long> {
 
-    List<ChatEntity> findAllByUserIdOrderById(String userId);
+    List<ChatEntity> findAllByUserIdAndAnswerIsNotNullOrderById(String userId);
 }

@@ -54,7 +54,7 @@ public class InitService {
         String fileName = String.valueOf(System.currentTimeMillis());
         JSONArray jsonArray = new JSONArray();
         //Получили весь промт и добавили в базовый json
-        jsonArray.put(getJsonPromt());
+        jsonArray.put(Info.getJsonPromt());
 
         JSONObject clientMessage = new JSONObject();
         clientMessage.put("role", "user");
@@ -140,20 +140,20 @@ public class InitService {
         batchRepository.save(batchEntity);
     }
 
-    private JSONObject getJsonPromt() throws IOException {
-        JSONObject systemMessage = new JSONObject();
-        systemMessage.put("role", "system");
-        BufferedReader reader = new BufferedReader(new FileReader("src/main/java/com/example/talisia/procedure.txt"));
-        String line;
-        StringBuilder sb = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        reader.close();
-//        systemMessage.put("content", Info.desc + sb.toString());
-        systemMessage.put("content", "");
-        return systemMessage;
-    }
+//    public JSONObject getJsonPromt() throws IOException {
+//        JSONObject systemMessage = new JSONObject();
+//        systemMessage.put("role", "system");
+//        BufferedReader reader = new BufferedReader(new FileReader("src/main/java/com/example/talisia/procedure.txt"));
+//        String line;
+//        StringBuilder sb = new StringBuilder();
+//        while ((line = reader.readLine()) != null) {
+//            sb.append(line).append("\n");
+//        }
+//        reader.close();
+////        systemMessage.put("content", Info.desc + sb.toString());
+//        systemMessage.put("content", "");
+//        return systemMessage;
+//    }
 
     private void sendRequestToChatGpt(String body, HttpURLConnection con) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());

@@ -17,8 +17,8 @@ public class ChatEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cliend_id")
-    private String cliendId;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "question")
     private String question;
@@ -38,20 +38,20 @@ public class ChatEntity {
         this.id = id;
     }
 
-    public String getCliendId() {
-        return cliendId;
-    }
-
-    public void setCliendId(String cliendId) {
-        this.cliendId = cliendId;
-    }
-
     public String getQuestion() {
         return question;
     }
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getAnswer() {

@@ -6,3 +6,5 @@ databaseChangeLog:
       file: db/changelog/2024.07.27_add_table_chat.yaml
   - include:
       file: db/changelog/2024.08.04_add_table_batch.yaml
+  - includeAll:
+      path: db/changelog/change/

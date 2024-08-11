@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024_08_11_19_10
+      author: Usenko Sergey
+      changes:
+        - renameColumn:
+            tableName: chat
+            oldColumnName: cliend_id
+            newColumnName: user_id

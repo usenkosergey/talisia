@@ -39,7 +39,7 @@ public class InitService {
 
         ChatEntity chatEntity = new ChatEntity();
         chatEntity.setQuestion(question);
-        chatEntity.setCliendId(id);
+        chatEntity.setUserId(id);
         repository.save(chatEntity);
 
         try {
@@ -53,19 +53,8 @@ public class InitService {
 
         String fileName = String.valueOf(System.currentTimeMillis());
         JSONArray jsonArray = new JSONArray();
-
-        JSONObject systemMessage = new JSONObject();
-        systemMessage.put("role", "system");
-        BufferedReader reader = new BufferedReader(new FileReader("src/main/java/com/example/talisia/procedure.txt"));
-        String line;
-        StringBuilder sb = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        reader.close();
-//        systemMessage.put("content", Info.desc + sb.toString());
-        systemMessage.put("content", "");
-        jsonArray.put(systemMessage);
+        //Получили весь промт и добавили в базовый json
+        jsonArray.put(getJsonPromt());
 
         JSONObject clientMessage = new JSONObject();
         clientMessage.put("role", "user");
@@ -149,6 +138,21 @@ public class InitService {
         batchEntity.setBatchId(batchId);
         batchEntity.setChatId(chatId);
         batchRepository.save(batchEntity);
+    }
+
+    private JSONObject getJsonPromt() throws IOException {
+        JSONObject systemMessage = new JSONObject();
+        systemMessage.put("role", "system");
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/java/com/example/talisia/procedure.txt"));
+        String line;
+        StringBuilder sb = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+//        systemMessage.put("content", Info.desc + sb.toString());
+        systemMessage.put("content", "");
+        return systemMessage;
     }
 
     private void sendRequestToChatGpt(String body, HttpURLConnection con) throws IOException {

@@ -1,7 +1,5 @@
 package com.example.talisia;
 
-import com.example.talisia.service.InitChatService;
-import com.example.talisia.service.InitService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,9 +17,8 @@ public class TalisiaApplication {
 //		InitService gtpInitService = context.getBean(InitService.class);
 //		gtpInitService.temp();
 
-		InitChatService initChatService = context.getBean(InitChatService.class);
-		initChatService.init1();
-
+//		InitChatService initChatService = context.getBean(InitChatService.class);
+//		initChatService.init1();
 	}
 
 }

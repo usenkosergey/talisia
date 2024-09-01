@@ -28,7 +28,7 @@ public class InitService {
     @Autowired
     private BatchRepository batchRepository;
 
-    @Value("${OpenAi.apiKey}")
+    @Value("${spring.ai.openai.api-key}")
     private String apiKey;
     private static final String UPLOAD_URL = "https://api.openai.com/v1/files";
     //сообщение/вопрос от человека + ID

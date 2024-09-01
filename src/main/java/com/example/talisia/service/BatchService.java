@@ -28,7 +28,7 @@ import java.util.List;
 @Service
 public class BatchService {
 
-    @Value("${OpenAi.apiKey}")
+    @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
     @Autowired

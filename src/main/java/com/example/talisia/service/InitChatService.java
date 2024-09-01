@@ -8,9 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +25,7 @@ import java.util.List;
 @Service
 //@RequestScope
 public class InitChatService {
-    @Value("${OpenAi.apiKey}")
+    @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
     @Value("${chat.model}")

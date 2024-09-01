@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,9 +26,10 @@ import java.util.Optional;
  * @since 04.08.2024
  */
 @Service
+@RequestScope
 public class AnswerService {
 
-    @Value("${OpenAi.apiKey}")
+    @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
     @Autowired
